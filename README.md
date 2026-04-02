@@ -167,7 +167,7 @@ docker run -p 8080:8080 game-api
 Once running, you can access the API documentation here:
 
 * **Swagger UI (Local):** [http://localhost:8080/swagger](http://localhost:8080/swagger)
-* **Production:** [https://video-game-character-api.onrender.com/swagger](https://video-game-character-api.onrender.com/swagger)
+* **Production:** [https://video-game-character-api-1.onrender.com/swagger/index.html](https://video-game-character-api-1.onrender.com/swagger/index.html)
 
 ---
 
