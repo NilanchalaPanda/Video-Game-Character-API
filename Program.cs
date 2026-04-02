@@ -1,35 +1,34 @@
 using Microsoft.EntityFrameworkCore;
-using Scalar.AspNetCore;
 using VideoGameCharacterAPI.Data;
 using VideoGameCharacterAPI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Bind to Render port
 var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
 builder.WebHost.UseUrls($"http://*:{port}");
 
-// Add services to the container.
-
+// Add services to the container
 builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
 
-builder.Services.AddDbContext<AppDbContext>(options => 
-        options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+// Swagger
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
+// Database
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Services
 builder.Services.AddScoped<IVideoGameCharacterService, VideoGameCharacterService>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
+// Swagger (enabled in production too)
+app.UseSwagger();
+app.UseSwaggerUI();
 
-}
-
-app.MapScalarApiReference();
-
+// Configure middleware
 if (!app.Environment.IsProduction())
 {
     app.UseHttpsRedirection();
@@ -39,6 +38,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+// Apply migrations automatically
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
