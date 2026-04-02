@@ -108,7 +108,7 @@ Remove a character permanently.
 ### 🔐 Production (Render)
 
 Environment variable used:
-ConnectionStrings__DefaultConnection=Host=localhost;Port=5432;Database=YourDb;Username=YourUser;Password=YourPassword
+```ConnectionStrings__DefaultConnection=Host=localhost;Port=5432;Database=YourDb;Username=YourUser;Password=YourPassword```
 
 
 ---
