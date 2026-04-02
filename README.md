@@ -1,8 +1,8 @@
 # 🎮 Video Game Character API
 
-A simple and clean backend project to manage video game characters — built to demonstrate how modern APIs are structured and organized.
+A modern backend API to manage video game characters — built with clean architecture, containerization, and cloud deployment in mind.
 
-This project focuses on **clarity, scalability, and clean design**, making it easy to understand for both technical and non-technical audiences.
+This project demonstrates how to build, containerize, and deploy a scalable API using **.NET 10, PostgreSQL, Docker, and Render**.
 
 ---
 
@@ -15,44 +15,51 @@ Imagine you are building a game or an app where you want to:
 - Update their roles ⚔️  
 - Remove characters ❌  
 
-This API acts as the **engine behind that system**, handling all those operations smoothly.
+This API acts as the **backend engine**, handling all these operations efficiently and reliably.
 
 ---
 
 ## ✨ Key Highlights
 
-- Easy-to-understand API structure  
-- Clean separation of logic (well-organized code)  
-- Supports all basic operations (Create, Read, Update, Delete)  
-- Designed in a way that can grow into a real-world product  
-- Includes interactive API testing interface  
+- Clean and scalable API architecture  
+- Fully containerized using Docker 🐳  
+- Cloud deployed on Render ☁️  
+- Uses PostgreSQL for production-grade storage 🗄️  
+- Automatic database migrations on startup  
+- Interactive API documentation via Swagger  
+- Environment-based configuration (secure & production-ready)
 
 ---
 
 ## 🧩 How the system works (Simple View)
-User Request → API → Logic Layer → Database → Response Back
 
-- You send a request (like “add a character”)  
-- The system processes it  
-- Stores or retrieves data  
-- Sends back a response  
+User Request → API → Service Layer → Database → Response
+
+- Client sends a request  
+- API processes it  
+- Business logic is applied  
+- Data is stored/retrieved from PostgreSQL  
+- Response is returned  
 
 ---
 
-## 🚀 What can you do with it?
+## 🚀 Features
 
 ### ➕ Add a Character
-You can create a new character with details like name, game, and role.
+Create a new character with:
+- Name
+- Game
+- Role
 
 ---
 
 ### 📄 View Characters
-Get a list of all characters stored in the system.
+Retrieve all characters stored in the database.
 
 ---
 
-### 🔍 Find by ID
-Search for a specific character using its unique ID.
+### 🔍 Get by ID
+Fetch a specific character using its unique ID.
 
 ---
 
@@ -62,50 +69,132 @@ Modify existing character details.
 ---
 
 ### 🗑️ Delete Character
-Remove a character from the system.
+Remove a character permanently.
 
 ---
 
-## 🛠️ Tech Stack (Light Overview)
+## 🛠️ Tech Stack
 
-This project uses modern backend tools:
+### Backend
+- **.NET 10 (Preview)**  
+- **ASP.NET Core Web API**
 
-- **.NET 10** → Core framework to build APIs  
-- **ASP.NET Core** → Handles web requests  
-- **Entity Framework Core** → Talks to the database  
-- **SQL Server Express** → Stores the data  
-- **OpenAPI (Scalar UI)** → Helps test APIs easily  
+### Database
+- **PostgreSQL (Render Hosted)**  
+- **Entity Framework Core (Npgsql Provider)**  
 
----
+### DevOps & Deployment
+- **Docker** → Containerization  
+- **Render** → Cloud hosting  
 
-## 📦 Project Structure (Simplified)
-- Controllers → Handles incoming requests
-- Services → Contains logic
-- Models → Data structure
-- DTOs → Clean input/output format
-- Data → Database connection
-
+### API Documentation
+- **Swagger (Swashbuckle)** → `/swagger`
 
 ---
 
-## ⚙️ How to run the project
-
-### 1. Install Requirements
-
-- .NET 10 SDK  
-- SQL Server Express  
-
----
-
-### 2. Setup Database
-
-Update the connection string in:
-`appsetting.json`
+## 📦 Project Structure
+- Controllers → Handles HTTP requests
+- Services → Business logic
+- Models → Database entities
+- Dtos → Request/response shaping
+- Data → DbContext (database connection)
+- Migrations → Database schema history
 
 
 ---
 
-### 3. Run the Project
+## ⚙️ Environment Configuration
 
+### 🔐 Production (Render)
+
+Environment variable used:
+ConnectionStrings__DefaultConnection=Host=localhost;Port=5432;Database=YourDb;Username=YourUser;Password=YourPassword
+
+
+---
+
+### 🖥️ Local Development
+
+Use: appsettings.Development.json
+
+Example:
+
+```json
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Host=localhost;Port=5432;Database=VideoGameCharactersDb;Username=postgres;Password=yourpassword"
+  }
+}
+```
+
+## 🐳 Running with Docker (Optional)
+
+### Build
 ```bash
-dotnet run
+docker build -t game-api .
+```
+
+Run 
+```bash
+docker run -p 8080:8080 game-api
+```
+
+# Project Setup & Documentation
+
+## 🚀 Running the Project Locally
+
+1. **Install Requirements**
+    * **.NET 10 SDK**
+    * **PostgreSQL** (Local or Docker)
+
+2. **Setup Database**
+    * Update the connection string in: `appsettings.Development.json`
+
+3. **Apply Migrations**
+    ```bash
+    dotnet ef database update
+    ```
+
+4. **Run the API**
+    ```bash
+    dotnet run
+    ```
+
+---
+
+## 🌐 API Documentation
+
+Once running, you can access the API documentation here:
+
+* **Swagger UI (Local):** [http://localhost:8080/swagger](http://localhost:8080/swagger)
+* **Production:** [https://video-game-character-api.onrender.com/swagger](https://video-game-character-api.onrender.com/swagger)
+
+---
+
+## ☁️ Deployment (Render)
+
+This project is deployed using:
+
+* **Docker-based Web Service**
+* **Managed PostgreSQL database**
+* **Environment variables** for configuration
+
+---
+
+## 🔄 Database Migrations
+
+Migrations are handled via EF Core:
+
+* **Management:** Created using EF Core CLI.
+* **Execution:** Automatically applied on app startup:
+    ```csharp
+    db.Database.Migrate();
+    ```
+
+---
+
+## 🔐 Security Best Practices
+
+* **Zero Secrets in Code:** No sensitive data is stored in the source code.
+* **Environment Variables:** Used for all production configurations.
+* **Git Hygiene:** `appsettings.Development.json` is excluded from Git to prevent accidental credential leaks.
