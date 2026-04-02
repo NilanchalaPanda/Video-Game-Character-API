@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using VideoGameCharacterAPI.Data;
 using VideoGameCharacterAPI.Services;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
