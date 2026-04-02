@@ -26,8 +26,9 @@ if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 
-    app.MapScalarApiReference();
 }
+
+app.MapScalarApiReference();
 
 if (!app.Environment.IsProduction())
 {
